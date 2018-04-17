@@ -2,10 +2,10 @@
 # Usage:
 #
 #     # build the image
-#     docker build -t docker-rvm .
+#     docker build -t msati/docker-rvm .
 #
-#     # run console in a container
-#     docker run -it docker-rvm bash
+#     # run a bash login shell in a container running that image
+#     docker run -it msati/docker-rvm bash -l
 #
 # Build args:
 #
