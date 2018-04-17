@@ -33,7 +33,7 @@ at the top of your `Dockerfile`:
 
 ```dockerfile
 ARG RVM_RUBY_VERSIONS="2.3.7 2.5.1 ruby-head"
-FROM docker-rvm
+FROM msati/docker-rvm
 
 # Now carry on as before -- your base image will contain a layer in which all of
 # those versions were installed by RVM.
