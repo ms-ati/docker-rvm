@@ -67,6 +67,7 @@ ONBUILD ARG RVM_RUBY_VERSIONS
 # Optional: child images can set default Ruby version (default is first version)
 ONBUILD ARG RVM_RUBY_DEFAULT
 
+# Child image runs this only if RVM_RUBY_VERSIONS is defined as ARG before the FROM line
 ONBUILD RUN if [ ! -z "${RVM_RUBY_VERSIONS}" ]; then \
               VERSIONS="$(echo "${RVM_RUBY_VERSIONS}" | sed -E -e 's/\s+/\n/g')" \
               && for v in ${VERSIONS}; do \
