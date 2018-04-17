@@ -2,18 +2,20 @@
 
 Docker base image for [RVM (Ruby Version Manager)](https://rvm.io).
 
-## How?
+## Usage
 
-Let's look at some examples:
+### Example Dockerfiles
 
-1. Automatic install of [multiple Ruby versions](https://github.com/ms-ati/docker-rvm/blob/master/examples/Dockerfile.multi) via simple `ARG` line
+1. [Dockerfile.multi](https://github.com/ms-ati/docker-rvm/blob/master/examples/Dockerfile.multi) 
+
+    Demonstrates automatic installation of multiple Ruby versions via one simple `ARG` line
 
 ### Example: Upgrading Ruby version in your app
 
 Let's see how the [Ruby 2.4 Integer Unification](https://blog.bigbinary.com/2016/11/18/ruby-2-4-unifies-fixnum-and-bignum-into-integer.html)
 impacts us.
 
-We create a directory containing a simple `Dockerfile`:
+We'll create a directory containing a simple `Dockerfile` which runs `irb`:
 
 ```dockerfile
 ARG RVM_RUBY_VERSIONS="2.3 2.4"
@@ -29,7 +31,7 @@ Great! Let's build it.
 docker build -t rvm-irb .
 ```
 
-Ok, it's built. Let's run `irb`, defaulting from our `ENV` above to Ruby 2.3:
+Ok, it's built. Let's run it:
 
 ```bash
 docker run -it rvm-irb
