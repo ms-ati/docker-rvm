@@ -76,10 +76,10 @@ And that's about it.
 What use cases motivate dockerizing RVM, rather than using
 one of the [official Ruby](https://hub.docker.com/_/ruby/) Docker images?
 
-1. To use an [official Ruby installation method](https://www.ruby-lang.org/en/downloads/) in Docker
-2. To employ [RVM best practices](https://rvm.io/rvm/best-practices), such as project gemsets, in Docker
-3. To easily switch between multiple Ruby versions in Docker, without rebuilding
+1. To easily **switch** between multiple Ruby versions in Docker, **without rebuilding**
    entire image on each switch
+2. To employ [RVM best practices](https://rvm.io/rvm/best-practices), such as per-project gemsets, in Docker
+3. To use an [official Ruby installation method](https://www.ruby-lang.org/en/downloads/) in Docker
 
 ### Example: Reporting bugs in Ruby
 
