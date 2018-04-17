@@ -3,7 +3,7 @@
 #
 # Usage:
 #
-#     # Use RVM_RUBY_VERSIONS and RVM_RUBY_DEFAULT specified below...
+#     # Use the RVM_RUBY_VERSIONS and RVM_RUBY_DEFAULT specified below...
 #     docker build -t example:multi - < examples/Dockerfile.multi
 #
 #     # Or, override RVM_RUBY_VERSIONS and/or RVM_RUBY_DEFAULT from command line
@@ -22,12 +22,17 @@
 #     ruby-2.6.0-preview1
 #     ruby-2.3.7
 #     ruby-2.4.4
+#
+#     # For easily using this example child image to iterate on parent image...
+#     docker build -t msati/docker-rvm . \
+#       && docker build -t example:multi - < examples/Dockerfile.multi \
+#       && docker run -it example:multi bash -l
 ##
 
 # Configuration for the ONBUILD steps of docker-rvm image
 ARG RVM_RUBY_VERSIONS="2.3.7 2.4.4 2.5.1"
 ARG RVM_RUBY_DEFAULT="2.4.4"
-FROM docker-rvm
+FROM msati/docker-rvm
 
 # After Ruby versions are installed we continue as non-root rvm user
 USER ${RVM_USER}
