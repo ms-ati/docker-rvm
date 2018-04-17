@@ -4,9 +4,9 @@ Docker base image for [RVM (Ruby Version Manager)](https://rvm.io).
 
 ## How?
 
-See, for example:
+Let's look at some examples:
 
-1. [Multiple Ruby versions](examples/Dockerfile.multi) automatically installed.
+1. Automatic install of [multiple Ruby versions](https://github.com/ms-ati/docker-rvm/blob/master/examples/Dockerfile.multi) via simple `ARG` line
 
 ## Why?
 
