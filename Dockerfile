@@ -11,7 +11,9 @@
 #
 #   * RVM_VERSION (default is 'stable')
 #
-# Onbuild environment options:
+#   * RVM_USER (default is 'rvm')
+#
+# ONBUILD args in child images:
 #
 #   * RVM_RUBY_VERSIONS
 #
@@ -24,6 +26,7 @@ ARG RVM_VERSION=stable
 
 # RMV user to execute as after RVM is installed
 ARG RVM_USER=rvm
+ENV RVM_USER=${RVM_USER}
 
 # Install dependencies of RVM
 RUN apt-get update \
@@ -44,7 +47,8 @@ RUN gpg2 --quiet --no-tty --logger-fd 1 --keyserver hkp://keys.gnupg.net \
     && gpg2 --quiet --no-tty --logger-fd 1 --verify rvm-installer.asc \
     && bash rvm-installer ${RVM_VERSION} \
     && rm rvm-installer rvm-installer.asc \
-    && echo bundler >> /usr/local/rvm/gemsets/global.gems \
+    && echo "bundler" >> /usr/local/rvm/gemsets/global.gems \
+    && echo "rvm_silence_path_mismatch_check_flag=1" >> /etc/rvmrc \
     && echo "install: --no-document" > /etc/gemrc
 
 # Workaround tty check, see https://github.com/hashicorp/vagrant/issues/1673#issuecomment-26650102
@@ -53,17 +57,19 @@ RUN sed -i 's/^mesg n/tty -s \&\& mesg n/g' /root/.profile
 # Switch to a bash login shell to allow simple 'rvm' in RUN commands
 SHELL ["/bin/bash", "-l", "-c"]
 
-# See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
+# Optional: child images can change to this user, or add 'rvm' group to other user
+# see https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
 RUN useradd -m --no-log-init -r -g rvm ${RVM_USER}
 
-# Optional: Child images can automatically install
-ONBUILD RUN if [ ! -z "$RVM_RUBY_VERSIONS" ]]; then \
-              for v in "${RVM_RUBY_VERSIONS[@]}"; do \
-                rvm install "${v}" \
-              done \
-              && DEFAULT=${RVM_RUBY_DEFAULT:-$(rvm list strings | head -n1)} \
-              && [ ! -z "${DEFAULT}" ] && rvm use --default "${DEFAULT}" \
-            fi \
-            && rvm cleanup all \
-            && rm -rf /var/lib/apt/lists/*
+# Optional: child images can set Ruby versions to install *one per line*
+ONBUILD ARG RVM_RUBY_VERSIONS
 
+# Optional: child images can set default Ruby version
+ONBUILD ARG RVM_RUBY_DEFAULT
+
+ONBUILD RUN for v in ${RVM_RUBY_VERSIONS}; do rvm install ${v}; done \
+            && rvm cleanup all \
+            && rm -rf /var/lib/apt/lists/* \
+            && DEFAULT=${RVM_RUBY_DEFAULT:-$(rvm list strings | head -n1)} \
+            && [ ! -z "${DEFAULT}" ] \
+            && rvm use --default "${DEFAULT}"

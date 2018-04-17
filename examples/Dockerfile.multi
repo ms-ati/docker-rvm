@@ -1,0 +1,25 @@
+# Configure this child image with build args to automatically install
+# Ruby versions, and configure a default ruby version
+#
+# Example:
+#
+#     versions=$'2.3.7\n2.4.4\n2.5.1\n2.6.0-preview1\nruby-head'
+#
+#     docker build -t example:multi \
+#            --build-arg RVM_RUBY_VERSIONS="$versions" \
+#            --build-arg RVM_RUBY_DEFAULT=2.4.4 \
+#            - < examples/Dockerfile.multi
+#
+#     docker run -it example:multi bash -l
+#
+#     # inside the container
+#     rvm@a8dcd6ad097b:/$ rvm list strings
+#     ruby-head
+#     ruby-2.5.1
+#     ruby-2.6.0-preview1
+#     ruby-2.3.7
+#     ruby-2.4.4
+#
+FROM docker-rvm
+
+USER ${RVM_USER}
