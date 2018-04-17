@@ -46,7 +46,7 @@ Great, now how easy is it to do the same in Ruby 2.4?
 docker run -it -e RUBY=2.4 rvm-irb
 
 2.4.1 :001 > 1.class
-Integer
+ => Integer
 ```
 
 Very easy -- and no image rebuild necessary!
