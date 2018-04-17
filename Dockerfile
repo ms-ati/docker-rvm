@@ -61,15 +61,21 @@ SHELL ["/bin/bash", "-l", "-c"]
 # see https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
 RUN useradd -m --no-log-init -r -g rvm ${RVM_USER}
 
-# Optional: child images can set Ruby versions to install *one per line*
+# Optional: child images can set Ruby versions to install (whitespace-separated)
 ONBUILD ARG RVM_RUBY_VERSIONS
 
-# Optional: child images can set default Ruby version
+# Optional: child images can set default Ruby version (default is first version)
 ONBUILD ARG RVM_RUBY_DEFAULT
 
-ONBUILD RUN for v in ${RVM_RUBY_VERSIONS}; do rvm install ${v}; done \
+ONBUILD RUN if [ ! -z "${RVM_RUBY_VERSIONS}" ]; then \
+              VERSIONS="$(echo "${RVM_RUBY_VERSIONS}" | sed -E -e 's/\s+/\n/g')" \
+              && for v in ${VERSIONS}; do \
+                   echo "== docker-rvm: Installing ${v} ==" \
+                   && rvm install ${v}; \
+                 done \
+              && DEFAULT=${RVM_RUBY_DEFAULT:-$(echo "${VERSIONS}" | head -n1)} \
+              && echo "== docker-rvm: Setting default ${DEFAULT} ==" \
+              && rvm use --default "${DEFAULT}"; \
+            fi \
             && rvm cleanup all \
-            && rm -rf /var/lib/apt/lists/* \
-            && DEFAULT=${RVM_RUBY_DEFAULT:-$(rvm list strings | head -n1)} \
-            && [ ! -z "${DEFAULT}" ] \
-            && rvm use --default "${DEFAULT}"
+            && rm -rf /var/lib/apt/lists/*
