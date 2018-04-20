@@ -21,14 +21,15 @@
 ##
 FROM ubuntu:16.04
 
-# RVM version to install, default is 'stable'
+# RVM version to install
 ARG RVM_VERSION=stable
+ENV RVM_VERSION=${RVM_VERSION}
 
-# RMV user to execute as after RVM is installed
+# RMV user to create
 ARG RVM_USER=rvm
 ENV RVM_USER=${RVM_USER}
 
-# Install dependencies of RVM
+# Install RVM
 RUN apt-get update \
     && apt-get install -y \
        curl \
