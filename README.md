@@ -6,7 +6,7 @@ Docker base image for [RVM (Ruby Version Manager)](https://rvm.io).
 
 ### Example Dockerfiles
 
-1. [Dockerfile.multi](https://github.com/ms-ati/docker-rvm/blob/master/examples/Dockerfile.multi)
+1. [examples/Dockerfile.multi](https://github.com/ms-ati/docker-rvm/blob/master/examples/Dockerfile.multi)
    <br/>Automated installation of multiple Ruby versions via one simple `ARG` line
 
 ### Example: Upgrading Ruby version in your app
