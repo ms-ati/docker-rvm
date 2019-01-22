@@ -19,7 +19,7 @@
 #
 #   * RVM_RUBY_DEFAULT
 ##
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # RVM version to install
 ARG RVM_VERSION=stable
@@ -30,8 +30,8 @@ ARG RVM_USER=rvm
 ENV RVM_USER=${RVM_USER}
 
 # Install RVM
-RUN apt-get update \
-    && apt-get install -y \
+RUN apt update \
+    && apt install -y \
        curl \
        git \
        gnupg2 \
