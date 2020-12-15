@@ -9,6 +9,12 @@ Docker base image for [RVM (Ruby Version Manager)](https://rvm.io).
 1. [examples/Dockerfile.multi](https://github.com/ms-ati/docker-rvm/blob/master/examples/Dockerfile.multi)
    <br/>Automated installation of multiple Ruby versions via one simple `ARG` line
 
+   ```bash
+   docker build -t msati/docker-rvm .
+   docker build -t example:multi - < examples/Dockerfile.multi
+   docker run -it example:multi bash -l
+   ```
+
 ### Example: Upgrading Ruby version in your app
 
 Let's see how the [Ruby 2.4 Integer Unification](https://blog.bigbinary.com/2016/11/18/ruby-2-4-unifies-fixnum-and-bignum-into-integer.html)
@@ -84,7 +90,7 @@ one of the [official Ruby](https://hub.docker.com/_/ruby/) Docker images?
 ### Example: Reporting bugs in Ruby
 
 Imagine that your team discovered that a piece of your code causes a crash in
-one version of Ruby (let's say 2.5.1), but not in another (2.3.7).
+one version of Ruby (let's say 3.0.0-preview2), but not in another (2.7.2).
 
 You've [reported the issue to Ruby](https://bugs.ruby-lang.org/projects/ruby-trunk/issues),
 and they've asked you to also check if the crash occurs in the trunk (aka head)
@@ -96,7 +102,7 @@ Based off of this image, it's as easy as editing an `ARG` line
 at the top of your `Dockerfile`:
 
 ```dockerfile
-ARG RVM_RUBY_VERSIONS="2.3.7 2.5.1 ruby-head"
+ARG RVM_RUBY_VERSIONS="2.7.2 3.0.0-preview2 ruby-head"
 FROM msati/docker-rvm
 
 # Now carry on as before -- building your project -- the base image will contain
