@@ -8,8 +8,8 @@
 #
 #     # Or, override RVM_RUBY_VERSIONS and/or RVM_RUBY_DEFAULT from command line
 #     docker build -t example:multi \
-#            --build-arg RVM_RUBY_VERSIONS="2.3.7 2.4.4 2.5.1 2.6.0-preview1 ruby-head" \
-#            --build-arg RVM_RUBY_DEFAULT=2.4.4 \
+#            --build-arg RVM_RUBY_VERSIONS="2.5.8 2.6.6 2.7.2 3.0.0-preview2 ruby-head" \
+#            --build-arg RVM_RUBY_DEFAULT=2.7.2 \
 #            - < examples/Dockerfile.multi
 #
 #     # Run a bash login shell
@@ -18,10 +18,10 @@
 #     # Inside the container, we see the expected Ruby versions were installed
 #     rvm@a8dcd6ad097b:/$ rvm list strings
 #     ruby-head
-#     ruby-2.5.1
-#     ruby-2.6.0-preview1
-#     ruby-2.3.7
-#     ruby-2.4.4
+#     ruby-3.0.0-preview2
+#     ruby-2.7.2
+#     ruby-2.6.6
+#     ruby-2.5.8
 #
 #     # For easily using this example child image to iterate on parent image...
 #     docker build -t msati/docker-rvm . \
@@ -30,8 +30,10 @@
 ##
 
 # Configuration for the ONBUILD steps of docker-rvm image
-ARG RVM_RUBY_VERSIONS="2.3.7 2.4.4 2.5.1"
-ARG RVM_RUBY_DEFAULT="2.4.4"
+# NOTE (2020-12-15): master needed for 3.0.0-preview2
+ARG RVM_VERSION=master
+ARG RVM_RUBY_VERSIONS="2.5.8 2.6.6 2.7.2 ruby-3.0.0-preview2"
+ARG RVM_RUBY_DEFAULT="2.7.2"
 FROM msati/docker-rvm
 
 # After Ruby versions are installed we continue as non-root rvm user
